@@ -16,11 +16,9 @@ public record Location(
     @CreatedDate LocalDateTime createdAt,
     @LastModifiedDate LocalDateTime updatedAt){
   
-    public Location(String name, String country) {
-        this(null, name, city, country, null, null);
-    }
-  
+        
     public Location withSlug(String slug){
+        
         return new Location(id, name, city, country, createdAt, updatedAt);
     }
 }
