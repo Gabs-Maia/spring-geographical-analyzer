@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.geo.places.locationsService.api.LocationRequest;
-import com.geo.places.locationsService.api.LocationResponse;
-import com.geo.places.locationsService.domain.mappers.LocationDTO;
+import com.geo.places.locationsService.api.requests.LocationRequest;
+import com.geo.places.locationsService.api.responses.LocationResponse;
+import com.geo.places.locationsService.domain.dataTransfer.LocationDTO;
 import com.geo.places.locationsService.domain.service.LocationService;
 
 import jakarta.validation.Valid;
@@ -23,31 +23,27 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/locations")
-public class LocationController {
-  @Autowired
-  private LocationService LocationService;
+public class LocationController{
 
-  @PostMapping
-  public ResponseEntity<Mono<LocationResponse>> create(@Valid @RequestBody LocationRequest request) {
-    var LocationResponse = LocationService.create(request).map(LocationDTO::toResponse);
-    return ResponseEntity.status(HttpStatus.CREATED).body(LocationResponse);
-  }
+    @Autowired private LocationService locationService;
 
-  @PatchMapping("{id}")
-  public Mono<LocationResponse> edit(@PathVariable("id") Long id, @RequestBody LocationRequest request) {
-    return LocationService.edit(id, request).map(LocationDTO::toResponse);
-  }
+    @PostMapping public ResponseEntity<Mono<LocationResponse>> create(@Valid @RequestBody LocationRequest request){
+        
+        Mono<LocationResponse> locationResponse = locationService.create(request).map(LocationDTO::toReponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(locationResponse);
+    }
 
-  @GetMapping("{id}")
-  public Mono<ResponseEntity<LocationResponse>> get(@PathVariable("id") Long id) {
-    return LocationService.get(id)
-        .map(Location -> ResponseEntity.ok(LocationDTO.toResponse(Location)))
-        .defaultIfEmpty(ResponseEntity.notFound().build());
-  }
+    @PatchMapping("{id}") public Mono<LocationResponse> edit(@PathVariable("id") Long id, @RequestBody LocationRequest request){
+           return locationService.update(id, request).map(LocationDTO::toReponse);
+    }
 
-  @GetMapping
-  public Flux<LocationResponse> list(@RequestParam(required = false) String name) {
-    return LocationService.list(name).map(LocationDTO::toResponse);
-  }
+    @GetMapping("{id}") public Mono<ResponseEntity<LocationResponse>> read(@PathVariable("id") Long id){
+        return locationService.read(id).map(l -> ResponseEntity.ok(LocationDTO.toReponse(l)))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping public Flux<LocationResponse> list(@RequestParam(required = false) String name){
+        return locationService.list(name).map(LocationDTO::toReponse);
+    }
 
 }

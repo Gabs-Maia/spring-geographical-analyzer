@@ -18,4 +18,4 @@ public interface LocationRepository extends ReactiveCrudRepository<Location, Lon
 }
 ```
 
-The interface also defines a method `findAll()` that must be later implemented. With this, it is possible to access data/information related to a given Location. 
+The interface also defines a method `findAll()` that must be later implemented. With this, it's possible to access data/information related to a given Location. 

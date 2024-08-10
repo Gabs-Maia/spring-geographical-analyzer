@@ -1,6 +1,8 @@
+
 package com.geo.places.locationsService.domain.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -13,12 +15,7 @@ public record Location(
     @NotBlank String name, 
     @NotBlank String city,
     @NotBlank String country,
+    @NotBlank Float population,
+    @NotBlank List<String> languages,
     @CreatedDate LocalDateTime createdAt,
-    @LastModifiedDate LocalDateTime updatedAt){
-  
-        
-    public Location withSlug(String slug){
-        
-        return new Location(id, name, city, country, createdAt, updatedAt);
-    }
-}
+    @LastModifiedDate LocalDateTime updatedAt){}
