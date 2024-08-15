@@ -13,10 +13,3 @@ public record Location(
   
 ```
 
-
-```java
-   public Location withSlug(String slug){
-        return new Location(id, name, slug, city, state, createdAt, updatedAt);
-    }
-
-```

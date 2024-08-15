@@ -22,7 +22,7 @@ public class LocationService{
     public LocationService(LocationRepository locationRepository){this.locationRepository = locationRepository;}
 
     public Mono<Location>  create(LocationRequest request){
-        Location Location  = new Location(null, request.name(), request.city(),  request.country(), request.population(), null, null, null);
+        Location Location  = new Location(null, request.name(), request.city(),  request.country(), request.population(), null,null,null,null,null);
         return locationRepository.save(Location);
     }
 
@@ -36,7 +36,7 @@ public class LocationService{
     }
 
     public Flux<Location> list(String name){
-        Location location = new Location(null, name, null,null,null,null,null,null);
+        Location location = new Location(null, name, null,null,null,null);
         Example<Location> query = SetQuery.doLocationQuery(location);
 
         return locationRepository.findAll(query, Sort.by("name").ascending());

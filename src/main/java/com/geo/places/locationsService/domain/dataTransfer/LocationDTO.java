@@ -21,11 +21,11 @@ public class LocationDTO {
                                             .map(lang -> StringUtils.hasText(lang) ? lang : "langNull")
                                             .collect(Collectors.toList());
         
-        return new Location(location.id(), name, city, country, location.population(), listLanguages , location.createdAt(), location.updatedAt());
+        return new Location(location.id(), name, city, country, location.continent(), location.globeRegion(), location.population(), listLanguages, location.humanLanguages());
     }
 
     public static LocationResponse  toReponse(Location location){ 
 
-        return new LocationResponse(location.name(), location.city(), location.country() ,location.population(), location.languages(), location.createdAt(), location.updatedAt());
+        return new LocationResponse(location.name(), location.city(), location.country() ,location.population(), location.natLanguages());
     }
 }
